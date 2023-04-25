@@ -4,8 +4,8 @@
 volatile long pulseCount = 0; // Variable para contar los pulsos del encoder
 volatile bool direction = true; // Variable para indicar la dirección de rotación del encoder (true = adelante, false = atrás)
 
-int rpm = 0; // Variable para guardar los RPMs del motor
-int PPR = 400;
+double rpm = 0; // Variable para guardar los RPMs del motor
+double PPR = 400;
 
 unsigned long prevMillis = 0; // Variable para guardar el tiempo del último muestreo
 const unsigned long interval = 1000; // Intervalo de muestreo (en milisegundos)
@@ -22,7 +22,7 @@ void loop() {
   if (currentMillis - prevMillis >= interval) { // Si ha pasado el intervalo de muestreo
     prevMillis = currentMillis; // Actualiza el tiempo del último muestreo
     detachInterrupt(digitalPinToInterrupt(ENCA)); // Desactiva la interrupción del pin ENCA
-    int pulses = pulseCount; // Obtiene el número de pulsos del encoder durante el intervalo
+    double pulses = pulseCount; // Obtiene el número de pulsos del encoder durante el intervalo
     pulseCount = 0; // Reinicia el contador de pulsos del encoder
     attachInterrupt(digitalPinToInterrupt(ENCA), updateEncoder, CHANGE); // Reactiva la interrupción del pin ENCA
     rpm = (pulses * 35.93 ) / PPR; // Calcula los RPMs del motor ( pulsos por vuelta del eje)
